@@ -1,3 +1,3 @@
 module MonthDate
-  VERSION = "0.0.1.2"
+  VERSION = "0.0.2.1"
 end
