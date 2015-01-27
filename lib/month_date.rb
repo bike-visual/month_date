@@ -22,7 +22,7 @@ module MonthDate
     def MonthDate.date_in_month(year, month)
         days = self.days_in_month(year, month)
         ary = []
-        days.upto(1) do |day|
+        1.upto(days) do |day|
             date = Date.new(year, month, day)
             ary << date.strftime("%Y%m%d")
         end
