@@ -6,10 +6,10 @@ require 'month_date/version'
 Gem::Specification.new do |spec|
   spec.name          = "month_date"
   spec.version       = MonthDate::VERSION
-  spec.authors       = ["JackHou"]
+  spec.authors       = ["ctxhou"]
   spec.email         = ["vjack070707@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Quickly get the specific date of month}
+  spec.description   = %q{todo}
   spec.homepage      = ""
   spec.license       = "MIT"
 

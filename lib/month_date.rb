@@ -12,9 +12,19 @@ module MonthDate
                 result << date.strftime("%Y%m%d")
             end
         end
+        return result
     end
 
     def MonthDate.days_in_month(year, month)
-      Date.new(year, month, -1).day
+        Date.new(year, month, -1).day
+    end
+
+    def MonthDate.date_in_month(year, month)
+        days = self.days_in_month(year, month)
+        ary = []
+        days.upto(days) do |day|
+            ary.push("#{year}#{month}#{day}")
+        end
+        return ary
     end
 end
