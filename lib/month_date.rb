@@ -19,6 +19,47 @@ module MonthDate
         Date.new(year, month, -1).day
     end
 
+    def MonthDate.dates_in_range(start_date, end_date)
+        start_date = Time.parse(start_date.to_s)
+        end_date = Time.parse(end_date.to_s)
+        result = []
+        if start_date.mon == end_date.mon && start_date.year == end_date.year
+            (start_date.day..end_date.day).to_a.each do |day|
+                date = Date.new(start_date.year, start_date.mon, day)
+                result << date.strftime("%Y%m%d")
+            end
+        elsif start_date.year == end_date.year
+            # first count the start date month date.
+            (start_date.day..self.days_in_month(start_date.year, start_date.mon)).to_a.each do |day|
+                date = Date.new(start_date.year, start_date.mon, day)
+                result << date.strftime("%Y%m%d")
+            end
+            (start_date.mon+1..end_date.mon-1).to_a.each do |month|
+                result += self.date_in_month(start_date.year, month)
+            end
+            (1..end_date.day).each do |day|
+                date = Date.new(end_date.year, end_date.mon, day)
+                result << date.strftime("%Y%m%d")
+            end
+        else
+            (start_date.day..self.days_in_month(start_date.year, start_date.mon)).to_a.each do |day|
+                date = Date.new(start_date.year, start_date.mon, day)
+                result << date.strftime("%Y%m%d")
+            end
+            (start_date.mon+1..12).to_a.each do |month|
+                result += self.date_in_month(start_date.year, month)
+            end
+            (1..end_date.mon-1).to_a.each do |month|
+                result += self.date_in_month(end_date.year, month)
+            end
+            (1..end_date.day).each do |day|
+                date = Date.new(end_date.year, end_date.mon, day)
+                result << date.strftime("%Y%m%d")
+            end
+        end
+        return result
+    end
+
     def MonthDate.date_in_month(year, month)
         days = self.days_in_month(year, month)
         ary = []
