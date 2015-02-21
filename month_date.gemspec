@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["ctxhou"]
   spec.email         = ["vjack070707@gmail.com"]
   spec.summary       = %q{Quickly get the specific date of month}
-  spec.description   = %q{todo}
-  spec.homepage      = ""
+  spec.description   = %q{More easy way to get some dates in ruby.}
+  spec.homepage      = "https://github.com/ctxhou/month_date"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
