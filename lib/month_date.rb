@@ -19,14 +19,19 @@ module MonthDate
         Date.new(year, month, -1).day
     end
 
-    def MonthDate.dates_in_range(start_date, end_date, format="%Y%m%d")
+    def MonthDate.dates_in_range(start_date, end_date, format="%Y%m%d", day_type=false)
         start_date = Time.parse(start_date.to_s)
         end_date = Time.parse(end_date.to_s)
-        result = []
+        weekend = []
+        weekday = []
         if start_date.mon == end_date.mon && start_date.year == end_date.year
             (start_date.day..end_date.day).to_a.each do |day|
                 date = Date.new(start_date.year, start_date.mon, day)
-                result << date.strftime(format)
+                if self.weekend?(date)
+                    weekend << date.strftime(format)
+                else
+                    weekday << date.strftime(format)
+                end
             end
         elsif start_date.year == end_date.year
             # first count the start date month date.
@@ -60,13 +65,55 @@ module MonthDate
         return result
     end
 
-    def MonthDate.date_in_month(year, month, format="%Y%m%d")
+    def MonthDate.date_in_month(year, month, format="%Y%m%d", day_type=false)
         days = self.days_in_month(year, month)
         ary = []
+        result = {:weekend=>[], :weekday=>[]}
+        if day_type
+            1.upto(days) do |day|
+                date = Date.new(year, month, day)
+                if self.weekend?(date)
+                    result[:weekend] << date.strftime(format)
+                else
+                    result[:weekday] << date.strftime(format)
+                end
+            end
+            return result
+        else
+            1.upto(days) do |day|
+                date = Date.new(year, month, day)
+                ary << date.strftime(format)
+            end
+            return ary
+        end
+    end
+
+    def MonthDate.date_in_month_weekend(year, month, format="%Y%m%d")
+        days = self.days_in_month(year, month)
+        result = []
         1.upto(days) do |day|
             date = Date.new(year, month, day)
-            ary << date.strftime(format)
+            result << date.strftime(format) if self.weekend?(date)
         end
-        return ary
+        return result
+    end
+
+    def MonthDate.date_in_month_weekday(year, month, format="%Y%m%d")
+        days = self.days_in_month(year, month)
+        result = []
+        1.upto(days) do |day|
+            date = Date.new(year, month, day)
+            result << date.strftime(format) unless self.weekend?(date)
+        end
+        return result
+    end
+
+    def self.weekend?(date)
+        wday = date.wday
+        if wday == 0 || wday == 6
+            return true
+        else
+            return false
+        end
     end
 end
