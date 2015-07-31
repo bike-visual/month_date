@@ -37,32 +37,58 @@ module MonthDate
             # first count the start date month date.
             (start_date.day..self.days_in_month(start_date.year, start_date.mon)).to_a.each do |day|
                 date = Date.new(start_date.year, start_date.mon, day)
-                result << date.strftime(format)
+                if self.weekend?(date)
+                    weekend << date.strftime(format)
+                else
+                    weekday << date.strftime(format)
+                end
             end
             (start_date.mon+1..end_date.mon-1).to_a.each do |month|
-                result += self.date_in_month(start_date.year, month)
+                tmp = self.date_in_month(start_date.year, month, true)
+                weekend += tmp[:weekend]
+                weekday += tmp[:weekday]
             end
             (1..end_date.day).each do |day|
                 date = Date.new(end_date.year, end_date.mon, day)
-                result << date.strftime(format)
+                if self.weekend?(date)
+                    weekend << date.strftime(format)
+                else
+                    weekday << date.strftime(format)
+                end
             end
         else
             (start_date.day..self.days_in_month(start_date.year, start_date.mon)).to_a.each do |day|
                 date = Date.new(start_date.year, start_date.mon, day)
-                result << date.strftime(format)
+                if self.weekend?(date)
+                    weekend << date.strftime(format)
+                else
+                    weekday << date.strftime(format)
+                end
             end
             (start_date.mon+1..12).to_a.each do |month|
-                result += self.date_in_month(start_date.year, month)
+                tmp = self.date_in_month(start_date.year, month, format, true)
+                weekend += tmp[:weekend]
+                weekday += tmp[:weekday]
             end
             (1..end_date.mon-1).to_a.each do |month|
-                result += self.date_in_month(end_date.year, month)
+                tmp = self.date_in_month(end_date.year, month, format, true)
+                weekend += tmp[:weekend]
+                weekday += tmp[:weekday]
             end
             (1..end_date.day).each do |day|
                 date = Date.new(end_date.year, end_date.mon, day)
-                result << date.strftime(format)
+                if self.weekend?(date)
+                    weekend << date.strftime(format)
+                else
+                    weekday << date.strftime(format)
+                end
             end
         end
-        return result
+        if day_type
+            return {:weekday=>weekday, :weekend=>weekend}
+        else
+            return (weekday + weekend).sort
+        end
     end
 
     def MonthDate.date_in_month(year, month, format="%Y%m%d", day_type=false)
