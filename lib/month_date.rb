@@ -44,7 +44,7 @@ module MonthDate
                 end
             end
             (start_date.mon+1..end_date.mon-1).to_a.each do |month|
-                tmp = self.date_in_month(start_date.year, month, true)
+                tmp = self.date_in_month(start_date.year, month, format, true)
                 weekend += tmp[:weekend]
                 weekday += tmp[:weekday]
             end
@@ -107,7 +107,9 @@ module MonthDate
             return result
         else
             1.upto(days) do |day|
+
                 date = Date.new(year, month, day)
+
                 ary << date.strftime(format)
             end
             return ary

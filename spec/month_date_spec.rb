@@ -7,7 +7,8 @@ describe MonthDate do
     end
 
     it "test dates_in_range" do
-        result = MonthDate.dates_in_range(20140101, 20150205, "%Y%m%d", true)
+        result1 = MonthDate.dates_in_range(20140101, 20150205, "%Y%m%d", true)
+        result2 = MonthDate.dates_in_range(20140101, 20140305)
     end
 
     it "test date_in_month" do 
